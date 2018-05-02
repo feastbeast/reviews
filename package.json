@@ -6,6 +6,7 @@
     "example": "example"
   },
   "scripts": {
+    "writedata": "node ./createSeed.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -14,8 +15,8 @@
     "start": "node ./server/server.js",
     "seed": "node ./seedDb.js",
     "docker": "npm run build:prod && npm run seed & npm run start",
-    "lint" : "eslint .",
-    "lint:fix" : "eslint . --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -26,6 +27,9 @@
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "faker": "^4.1.0",
+    "fs": "0.0.1-security",
+    "gnomon": "^1.5.0",
     "moment": "^2.22.0",
     "mongoose": "^5.0.14",
     "morgan": "^1.9.0",

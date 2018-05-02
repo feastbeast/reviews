@@ -36,5 +36,5 @@ app.get('/api/restaurants/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-  // console.log(`server running at PORT: ${port}`);
+  console.log(`server running at PORT: ${port}`);
 });

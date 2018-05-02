@@ -36,7 +36,7 @@ const findOne = (id, callback) =>
   // console.log('find one db triggered with ', id);
   Store.find({ place_id: id }, callback);
 const insertOne = (store, callback) => {
-  console.log('NEW STORE', store);
+  // console.log('NEW STORE', store);
   Store.create(store, callback);
 };
 

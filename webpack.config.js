@@ -6,7 +6,7 @@ var DIST_DIR = path.join(__dirname, '/public');
 module.exports = {
   plugins: [
     new webpack.DefinePlugin({
-      BASE_URL: JSON.stringify('http://54.215.215.188:3003'),
+      BASE_URL: JSON.stringify('http://localhost:3003'),
       APIKEY: JSON.stringify('YOUR_API_KEY'),
     })
   ],
