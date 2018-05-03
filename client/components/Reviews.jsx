@@ -68,7 +68,7 @@ export default class Reviews extends React.Component {
     let id = window.location.href.split('/')[4]
     axios.get(`${BASE_URL}/api/restaurants/${id}`)
     .then(({data}) => {
-      // console.log('data', data)
+      // console.log('data', data.reviews)
       this.setState({
         reviewList: data.reviews,
         rating: data.rating,

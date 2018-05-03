@@ -18,7 +18,7 @@ export default class Review extends React.Component {
 
 
  render() {
-   let review = this.props.review[0]
+   let review = this.props.review
    let reviewBody = `${review.text}`;
    let starsPercentage = (googleRating) => {
      let percent = googleRating / 5 * 100;
