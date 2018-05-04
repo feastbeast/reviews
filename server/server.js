@@ -1,5 +1,4 @@
-//-------------------------------------POSTGRES--------------------------------------
-const pgp = require('pg-promise');
+// -------------------------------------POSTGRES--------------------------------------
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
@@ -30,20 +29,20 @@ app.get('/restaurants/:id', (req, res) => {
 app.get('/api/restaurants/:id', (req, res) => {
   const id = req.params.id;
   db.findOne(id)
-  .then((data) => {
+    .then((data) => {
     // console.log('data ', data[0]);
-    res.send(data[0]);
-  })
-  .catch((error) => {
-    console.log('ERROR: ', error);
-  })
+      res.send(data[0]);
+    })
+    .catch((error) => {
+      console.log('ERROR: ', error);
+    });
 });
 
 app.listen(port, () => {
   console.log(`server running at PORT: ${port}`);
 });
 
-//-------------------------------------MONGODB--------------------------------------
+// -------------------------------------MONGODB--------------------------------------
 
 // const express = require('express');
 // const morgan = require('morgan');

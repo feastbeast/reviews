@@ -1,5 +1,5 @@
 CREATE TABLE restaurants (
-  place_id     varchar(10), 
+  place_id     varchar(10) PRIMARY KEY, 
   name         varchar(50),
   reviews      jsonb,
   rating       int,

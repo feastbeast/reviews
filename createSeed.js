@@ -91,3 +91,8 @@ generateJSON();
 // truncate -s -1 millionData.json
 // echo ] >> millionData.json
 // mongoimport --jsonArray -d apateez-reviews -c stores --file millionData.json --numInsertionWorkers 8
+
+
+
+
+
