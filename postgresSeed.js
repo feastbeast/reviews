@@ -15,16 +15,16 @@ const createEntry = (i) => {
     });
   }
 
-  const place_id = i;
+  const placeId = i;
   const name = `"${faker.company.companyName()}"`;
   const reviews = JSON.stringify(reviewsArr);
   const rating = Math.floor(Math.random()*5);
-  const price_level = Math.floor(Math.random()*4);
+  const priceLevel = Math.floor(Math.random()*4);
   const neighborhood = `"${faker.address.county()}"`;
   const city = `"${faker.address.city()}"`;
   const street = `"${faker.address.streetName()}"`;
 
-  const csvFormat = place_id + '|' + name + '|' + reviews + '|' + rating + '|' + price_level + '|' + neighborhood + '|' + city + '|' + street + '\n';
+  const csvFormat = placeId + '|' + name + '|' + reviews + '|' + rating + '|' + priceLevel + '|' + neighborhood + '|' + city + '|' + street + '\n';
 
   return csvFormat;
 };
