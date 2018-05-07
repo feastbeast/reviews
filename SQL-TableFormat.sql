@@ -23,10 +23,10 @@ CREATE TABLE restaurants (
 );
 
 CREATE TABLE reviews (
-  review_id    		 			     varchar(10) PRIMARY KEY, 
-  author_name: 		 			     varchar(50),
-  profile_photo_url: 			   text,
-  rating: 			 			       int,
+  review_id                  varchar(10) PRIMARY KEY, 
+  author_name:               varchar(50),
+  profile_photo_url:         text,
+  rating:                    int,
   relative_time_description: varchar(50),
   text:                      text
 );
