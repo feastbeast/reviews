@@ -18,8 +18,8 @@ const createEntry = (i) => {
   const placeId = i;
   const name = `"${faker.company.companyName()}"`;
   const reviews = JSON.stringify(reviewsArr);
-  const rating = Math.floor(Math.random()*5);
-  const priceLevel = Math.floor(Math.random()*4);
+  const rating = Math.floor(Math.random() * 5);
+  const priceLevel = Math.floor(Math.random() * 4);
   const neighborhood = `"${faker.address.county()}"`;
   const city = `"${faker.address.city()}"`;
   const street = `"${faker.address.streetName()}"`;

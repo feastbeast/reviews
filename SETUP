@@ -1,2 +1,0 @@
-Google API
-https://maps.googleapis.com/maps/api/place/details/json?placeid={place_id}&key={api_key}
