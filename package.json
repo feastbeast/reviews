@@ -8,6 +8,7 @@
   "scripts": {
     "writedata": "node ./createSeed.js",
     "gen-csv": "node ./postgresSeed.js",
+    "gen-reviews": "node ./createPostgresReviews.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -29,6 +30,7 @@
     "babel-preset-react": "^6.24.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "compression": "^1.7.2",
     "express": "^4.16.2",
     "faker": "^4.1.0",
     "fs": "0.0.1-security",
@@ -46,6 +48,7 @@
     "react-modal": "^3.3.2",
     "react-native-view-more-text": "^1.4.3",
     "react-test-renderer": "^16.3.2",
+    "redis": "^2.8.0",
     "request": "^2.85.0",
     "request-promise": "^4.2.2",
     "webpack": "^3.11.0"

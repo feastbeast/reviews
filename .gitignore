@@ -16,7 +16,10 @@ public/app.js
 # 10 Million Data
 millionData.json
 csvData.csv
+csvData-reviews.csv
 
 # New Relic
 newrelic_agent.log
 newrelic.js
+
+.DS_Store

@@ -14,7 +14,7 @@ CREATE TABLE restaurants (
 CREATE TABLE restaurants (
   place_id     varchar(10) PRIMARY KEY, 
   name         varchar(50),
-  reviews      text,
+  reviews_id   text[],
   rating       int,
   price_level  int,
   neighborhood varchar(50),
@@ -23,11 +23,11 @@ CREATE TABLE restaurants (
 );
 
 CREATE TABLE reviews (
-  review_id                  varchar(10) PRIMARY KEY, 
-  author_name:               varchar(50),
-  profile_photo_url:         text,
-  rating:                    int,
-  relative_time_description: varchar(50),
-  text:                      text
+  review_id                  varchar(10) PRIMARY KEY,
+  author_name                varchar(50),
+  profile_photo_url          text,
+  rating                     int,
+  relative_time_description  varchar(50),
+  comment                    text
 );
 
