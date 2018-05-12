@@ -41,29 +41,34 @@ app.get('/restaurants/:id', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.get('/api/restaurants/:id', (req, res) => {
+const getRestaurantData = (req, res) => {
+  console.log('...getting data please wait');
   const id = req.params.id;
   db.findOne(id)
     .then((data) => {
-    // console.log('data ', data[0]);
-      client.setex(id, 3600, JSON.stringify(data[0]));
-      res.send(data[0]);
+      console.log('DATA: ', data);
+      res.send(data);
+      client.setex(id, 3600, JSON.stringify(data));
     })
     .catch((error) => {
       console.log('ERROR: ', error);
     });
-});
+};
 
-// const getCache = (req, res) => {
-//   let id = req.params.id;
-//   client.get(id, (err, result) => {
-//     if (result) {
-//       res.send(result);
-//     } else {
-      
-//     }
-//   });
-// };
+const getCache = (req, res) => {
+  const id = req.params.id;
+  client.get(id, (err, result) => {
+    if (result) {
+      console.log('GETCACHE Result: ', result);
+      res.send(result);
+    } else {
+      console.log('GETCACHE Not cached!!!');
+      getRestaurantData(req, res);
+    }
+  });
+};
+
+app.get('/api/restaurants/:id', getCache);
 
 app.listen(port, () => {
   console.log(`server running at PORT: ${port}`);

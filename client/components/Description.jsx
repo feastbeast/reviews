@@ -33,11 +33,11 @@ export default class Description extends React.Component {
     axios.get(`${BASE_URL}/api/restaurants/${id}`)
     .then(({data}) => {
       this.setState({
-        title: data.name,
-        neighborhood: data.neighborhood,
-        price_level: data.price_level,
-        city: data.city,
-        street: data.street
+        title: data[0].name,
+        neighborhood: data[0].neighborhood,
+        price_level: data[0].price_level,
+        city: data[0].city,
+        street: data[0].street
       })
     })
     .catch((err) => {
