@@ -39,8 +39,8 @@ export default class Reviews extends React.Component {
     super(props);
 
     this.state = {
-      reviewList: [],
-      rating: '',
+      reviewList: this.props.reviewList || [],
+      rating: this.props.rating || '',
       modalIsOpen: false,
     };
     this.fetchReviews = this.fetchReviews.bind(this)
@@ -65,18 +65,20 @@ export default class Reviews extends React.Component {
   }
 
   fetchReviews() {
-    let id = window.location.href.split('/')[4]
-    axios.get(`${BASE_URL}/api/restaurants/${id}`)
-    .then(({data}) => {
-      console.log('data', data)
-      this.setState({
-        reviewList: data,
-        rating: data.rating,
+    let id = this.props.placeID || window.location.href.split('/')[4]
+    if (id !== undefined) {
+      axios.get(`${BASE_URL}/api/restaurants/${id}`)
+      .then(({data}) => {
+        console.log('data', data)
+        this.setState({
+          reviewList: data,
+          rating: data.rating,
+        })
       })
-    })
-    .catch((err) => {
-      console.log('ERROR: ', err)
-    })
+      .catch((err) => {
+        console.log('ERROR: ', err)
+      })
+    }
   }
 
    render() {

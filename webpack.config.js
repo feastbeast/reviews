@@ -3,17 +3,15 @@ const path = require('path');
 var SRC_DIR = path.join(__dirname, '/client');
 var DIST_DIR = path.join(__dirname, '/public');
 
-module.exports = {
+const common = {
   plugins: [
     new webpack.DefinePlugin({
       BASE_URL: JSON.stringify('http://localhost:3003'),
       APIKEY: JSON.stringify('YOUR_API_KEY'),
     })
   ],
-  context: __dirname + '/client',
-  entry: './index.jsx',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         include : SRC_DIR,
@@ -23,14 +21,29 @@ module.exports = {
           presets: ['react', 'es2015', 'env']
         },
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader','css-loader']
-      }
     ],
-  },
-  output: {
-    path: __dirname + '/public',
-    filename: 'app.js',
   }
 };
+
+const client = {
+  entry: `${SRC_DIR}/client.js`,
+  output: {
+    filename: 'reviews.js',
+    path: DIST_DIR,
+  }
+};
+
+const server = {
+  entry: `${SRC_DIR}/server.js`,
+  target: 'node',
+  output: {
+    path: DIST_DIR,
+    filename: 'reviews-server.js',
+    libraryTarget: "commonjs-module"
+  },
+};
+
+module.exports = [
+  Object.assign({}, common, server),
+  Object.assign({}, common, client)
+];

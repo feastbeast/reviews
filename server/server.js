@@ -6,9 +6,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const db = require('./../db/postgres/pg-store.js');
 
-const app = express();
-const port = process.env.PORT || 3003;
-
 // optimization of node
 // socket opening
 const http = require('http');
@@ -16,63 +13,87 @@ http.globalAgent.maxSockets = 50;
 
 // compression
 const compression = require('compression');
-app.use(compression({
-  filter: function () { return true; },
-}));
 
 // redis
 const redis = require('redis');
 const client = redis.createClient();
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+var cluster = require('cluster');
 
-app.use(morgan('dev'));
-app.use(bodyParser.json());
+if (cluster.isMaster) {
+  var numWorkers = require('os').cpus().length;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+  console.log('Master cluster setting up ' + numWorkers + ' workers...');
 
-app.use('/restaurants', express.static(path.join(__dirname, '../public')));
+  for(var i = 0; i < numWorkers; i++) {
+    cluster.fork();
+  }
 
-app.get('/restaurants/:id', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-const getRestaurantData = (req, res) => {
-  console.log('...getting data please wait');
-  const id = req.params.id;
-  db.findOne(id)
-    .then((data) => {
-      console.log('DATA: ', data);
-      res.send(data);
-      client.setex(id, 3600, JSON.stringify(data));
-    })
-    .catch((error) => {
-      console.log('ERROR: ', error);
-    });
-};
-
-const getCache = (req, res) => {
-  const id = req.params.id;
-  client.get(id, (err, result) => {
-    if (result) {
-      console.log('GETCACHE Result: ', result);
-      res.send(result);
-    } else {
-      console.log('GETCACHE Not cached!!!');
-      getRestaurantData(req, res);
-    }
+  cluster.on('online', function(worker) {
+    console.log('Worker ' + worker.process.pid + ' is online');
   });
-};
 
-app.get('/api/restaurants/:id', getCache);
+  cluster.on('exit', function(worker, code, signal) {
+    console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+    console.log('Starting a new worker');
+    cluster.fork();
+  });
+} else {
+  const app = express();
+  const port = process.env.PORT || 3003;
 
-app.listen(port, () => {
-  console.log(`server running at PORT: ${port}`);
-});
+  app.use(compression({
+    filter: function () { return true; },
+  }));
+
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
+  app.use(morgan('dev'));
+  app.use(bodyParser.json());
+
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  app.use('/', express.static(path.join(__dirname, '../public')));
+  app.use('/restaurants', express.static(path.join(__dirname, '../public')));
+
+  app.get('/restaurants/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+  });
+
+  const getRestaurantData = (req, res) => {
+    const id = req.params.id;
+    db.findOne(id)
+      .then((data) => {
+        res.send(data);
+        client.setex(id, 3600, JSON.stringify(data));
+      })
+      .catch((error) => {
+        console.log('ERROR: ', error);
+      });
+  };
+
+  const getCache = (req, res) => {
+    const id = req.params.id;
+    client.get(id, (err, result) => {
+      if (result) {
+        res.send(result);
+      } else {
+        getRestaurantData(req, res);
+      }
+    });
+  };
+
+  app.get('/api/restaurants/:id', getCache);
+
+  app.listen(port, () => {
+    console.log(`server running at PORT: ${port}`);
+  });
+}
+
 
 // -------------------------------------MONGODB--------------------------------------
 
